@@ -3,7 +3,7 @@ name: Lint, build and test
 on: [push, pull_request]
 
 env:
-  DOTNET_VERSION: 5.0.100
+  DOTNET_VERSION: 5.0.103
   PACKAGE_ID: strategy
   NUPKG_PATH: ./src/strategy/nupkg/*.nupkg
   PROJECT_PATH: src/strategy/strategy.csproj
