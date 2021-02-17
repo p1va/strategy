@@ -21,20 +21,10 @@ jobs:
       - name: Install dotnet-format
         run: dotnet tool install -g dotnet-format
 
-      - name: Install dotnet-format
+      - name: Check format
         run: dotnet format --check -v q
 
-      #- name: Add dotnet-format problem matcher
-      #  uses: xt0rted/dotnet-format-problem-matcher@v1
-
-      #- name: Restore dotnet tools
-      #  uses: xt0rted/dotnet-tool-restore@v1
-
-      #- name: Run dotnet format
-      #  uses: xt0rted/dotnet-format@v1.0.1
-      #  with:
-      #    repo-token: ${{ secrets.GITHUB_TOKEN }}
-
+  # The test job
   test-build-pack:
     runs-on: ubuntu-latest
     needs: lint
