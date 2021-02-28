@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  DOTNET_VERSION: 5.0.103
+  PACKAGE_ID: strategy
+  NUPKG_PATH: ./src/Strategy/bin/Release/*.nupkg
+  PROJECT_PATH: src/Strategy/Strategy.csproj
+
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    # Install tag to version
+    - name: Install tag to version tool
+      run: dotnet tool install -g dotnetCampus.TagToVersion
+
+    # Update build/Version.props
+    # This requires NET 3.1
+    - name: Update build/Version.props with version from tag
+      run: dotnet TagToVersion -t ${{ github.ref }}
+
+    # Setup .NET 5.0
+    - name: Setup .NET ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        source-url: https://api.nuget.org/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    # Restore
+    - name: Restore
+      run: dotnet restore
+
+    # Build
+    - name: Build
+      run: dotnet build --no-restore
+
+    # Run tests
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+    # Pack the tool as nupkg
+    - name: Pack
+      run: |
+        dotnet pack -c Release --no-restore \
+          --include-symbols --include-source \
+          -p:PackageID=${{ env.PACKAGE_ID }} \
+          ${{ env.PROJECT_PATH }}
+    
+    # Upload nupkg to build artifacts
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.PACKAGE_ID }}
+        path: ${{ env.NUPKG_PATH }}
+
+    # Push to Nuget
+    - name: Push to Nuget
+      run: dotnet nuget push ${{ env.NUPKG_PATH }} --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate --no-symbols true
+
