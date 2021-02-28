@@ -44,17 +44,16 @@ jobs:
 
     # Build
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -c Release
 
     # Run tests
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test--verbosity normal
 
     # Pack the tool as nupkg
     - name: Pack
       run: |
-        dotnet pack -c Release --no-restore \
-          --include-symbols --include-source \
+        dotnet pack -c Release --no-restore --include-symbols --include-source \
           -p:PackageID=${{ env.PACKAGE_ID }} \
           ${{ env.PROJECT_PATH }}
     
