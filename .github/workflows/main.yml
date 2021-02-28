@@ -46,19 +46,17 @@ jobs:
 
     # Build
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -c Release
 
     # Run tests
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --verbosity normal
 
-    # Pack the tool as nupkg
+    # Pack as nupkg package
     - name: Pack
       run: |
-        dotnet pack -v normal -c Release --no-restore \
-          --include-symbols --include-source \
-          -p:PackageID=${{ env.PACKAGE_ID }} \
-          -p:PackageVersion=${GITHUB_RUN_ID} \
+        dotnet pack -v normal -c Release --no-restore --include-symbols --include-source \
+          -p:PackageID=${{ env.PACKAGE_ID }} -p:PackageVersion=${GITHUB_RUN_ID} \
           ${{ env.PROJECT_PATH }}
     
     # Upload nupkg to build artifacts
