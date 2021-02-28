@@ -5,8 +5,8 @@ on: [push, pull_request]
 env:
   DOTNET_VERSION: 5.0.103
   PACKAGE_ID: strategy
-  NUPKG_PATH: ./src/strategy/bin/Release/*.nupkg
-  PROJECT_PATH: src/strategy/strategy.csproj
+  NUPKG_PATH: ./src/Strategy/bin/Release/*.nupkg
+  PROJECT_PATH: src/Strategy/Strategy.csproj
 
 jobs:
 
@@ -47,7 +47,7 @@ jobs:
     # Build
     - name: Build
       run: dotnet build --no-restore
-      
+
     # Run tests
     - name: Test
       run: dotnet test --no-build --verbosity normal
