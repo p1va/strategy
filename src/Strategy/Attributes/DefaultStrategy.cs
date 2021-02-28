@@ -1,11 +1,13 @@
 using System;
 
-namespace Strategy
+namespace Strategy.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class DefaultStrategyAttribute : StrategyAttribute
     {
-        public DefaultStrategyAttribute() : base(string.Empty, true)
+        private const string DefaultKey = "default";
+
+        public DefaultStrategyAttribute() : base(DefaultKey, true)
         {
         }
 

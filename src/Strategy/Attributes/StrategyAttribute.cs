@@ -1,6 +1,7 @@
 using System;
+using static EnsureThat.EnsureArg;
 
-namespace Strategy
+namespace Strategy.Attributes
 {
     /// <summary>
     /// The strategy attribute class
@@ -10,10 +11,10 @@ namespace Strategy
     public class StrategyAttribute : Attribute
     {
         public StrategyAttribute(string key) =>
-            (Key, IsDefault) = (key, false);
+            (Key, IsDefault) = (IsNotEmptyOrWhiteSpace(key, nameof(key)), false);
 
         public StrategyAttribute(string key, bool isDefault) =>
-            (Key, IsDefault) = (key, isDefault);
+            (Key, IsDefault) = (IsNotEmptyOrWhiteSpace(key, nameof(key)), isDefault);
 
         /// <summary>
         /// Gets the value of the key
@@ -23,6 +24,6 @@ namespace Strategy
         /// <summary>
         /// Gets a flag describing if this strategy is the default one
         /// </summary>
-        public bool IsDefault { get; set; }
+        public bool IsDefault { get; }
     }
 }
