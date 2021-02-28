@@ -1,4 +1,10 @@
 # Strategy
+
+![Build](https://github.com/p1va/strategy/workflows/Build/badge.svg)
+[![NuGet](https://img.shields.io/nuget/v/strategy.svg)](https://www.nuget.org/packages/strategy) 
+[![NuGet](https://img.shields.io/nuget/dt/strategy.svg)](https://www.nuget.org/packages/strategy)
+
+
 A lightweight implementation of the strategy patter where the creation of instances is handled by the dependency injection framework.
 
 ### Example
