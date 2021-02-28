@@ -5,7 +5,7 @@ on: [push, pull_request]
 env:
   DOTNET_VERSION: 5.0.103
   PACKAGE_ID: strategy
-  NUPKG_PATH: ./src/strategy/nupkg/*.nupkg
+  NUPKG_PATH: ./src/strategy/bin/Release/*.nupkg
   PROJECT_PATH: src/strategy/strategy.csproj
 
 jobs:
@@ -46,24 +46,24 @@ jobs:
 
     # Build
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -c Release
 
     # Run tests
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
     # Pack the tool as nupkg
-    #- name: Pack
-    #  run: |
-    #    dotnet pack -v normal -c Release --no-restore \
-    #      --include-symbols --include-source \
-    #      -p:PackageID=${{ env.PACKAGE_ID }} \
-    #      -p:PackageVersion=${GITHUB_RUN_ID} \
-    #      ${{ env.PROJECT_PATH }}
-    #
-    ## Upload nupkg to build artifacts
-    #- name: Upload Artifact
-    #  uses: actions/upload-artifact@v2
-    #  with:
-    #    name: ${{ env.PACKAGE_ID }}
-    #    path: ${{ env.NUPKG_PATH }}
+    - name: Pack
+      run: |
+        dotnet pack -v normal -c Release --no-restore \
+          --include-symbols --include-source \
+          -p:PackageID=${{ env.PACKAGE_ID }} \
+          -p:PackageVersion=${GITHUB_RUN_ID} \
+          ${{ env.PROJECT_PATH }}
+    
+    # Upload nupkg to build artifacts
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.PACKAGE_ID }}
+        path: ${{ env.NUPKG_PATH }}
