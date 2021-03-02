@@ -5,7 +5,7 @@
 [![NuGet](https://img.shields.io/nuget/dt/strategy.svg)](https://www.nuget.org/packages/strategy)
 
 
-A lightweight implementation of the strategy patter where the creation of instances is handled by the dependency injection framework.
+A lightweight implementation of the strategy pattern where the creation of instances is handled by the dependency injection framework.
 
 ### Example
 Declare the strategy interface
